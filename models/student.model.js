@@ -1,14 +1,14 @@
 const mongoose = require('mongoose');
 
-var employeeSchema = new mongoose.Schema({
+var studentSchema = new mongoose.Schema({
     fullName: {
         type: String,
         required: 'This field is required.'
     },
-    email: {
+    regno: {
         type: String
     },
-    mobile: {
+    branch: {
         type: String
     },
     city: {
@@ -16,4 +16,4 @@ var employeeSchema = new mongoose.Schema({
     }
 });
 
-mongoose.model('Employee', employeeSchema);
+mongoose.model('Student', studentSchema);
