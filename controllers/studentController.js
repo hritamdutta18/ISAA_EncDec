@@ -5,7 +5,7 @@ const Student = mongoose.model('Student');
 var CryptoJS = require("crypto-js");
 
 router.get('/', (req, res) => {
-    res.render("employee/addOrEdit", {
+    res.render("student/addOrEdit", {
         viewTitle: "Insert Student"
     });
 });
@@ -31,11 +31,11 @@ function insertRecord(req, res) {
 
     student.save((err, doc) => {
         if (!err)
-            res.redirect('employee/list');
+            res.redirect('student/list');
         else {
             if (err.name == 'ValidationError') {
                 handleValidationError(err, req.body);
-                res.render("employee/addOrEdit", {
+                res.render("student/addOrEdit", {
                     viewTitle: "Insert Student",
                     student: req.body
                 });
@@ -53,11 +53,11 @@ function updateRecord(req, res) {
     req.body.city = CryptoJS.AES.encrypt(req.body.city, 'info sec 21').toString();
 
     Student.findOneAndUpdate({ _id: req.body._id }, req.body, { new: true }, (err, doc) => {
-        if (!err) { res.redirect('employee/list'); }
+        if (!err) { res.redirect('student/list'); }
         else {
             if (err.name == 'ValidationError') {
                 handleValidationError(err, req.body);
-                res.render("employee/addOrEdit", {
+                res.render("student/addOrEdit", {
                     viewTitle: 'Update Student',
                     student: req.body
                 });
@@ -79,7 +79,7 @@ router.get('/list', (req, res) => {
                 docs.branch = CryptoJS.AES.decrypt(docs.branch, 'info sec 21').toString(CryptoJS.enc.Utf8);
                 docs.city = CryptoJS.AES.decrypt(docs.city, 'info sec 21').toString(CryptoJS.enc.Utf8);
             });
-            res.render("employee/list", {
+            res.render("student/list", {
                 list: docs
             });
             // res.render("employee/list", {
@@ -87,7 +87,7 @@ router.get('/list', (req, res) => {
             // });
         }
         else {
-            console.log('Error in retrieving employee list :' + err);
+            console.log('Error in retrieving student list :' + err);
         }
     });
 });
@@ -113,7 +113,7 @@ router.get('/:id', (req, res) => {
             doc.branch = CryptoJS.AES.decrypt(doc.branch, 'info sec 21').toString(CryptoJS.enc.Utf8);
             doc.city = CryptoJS.AES.decrypt(doc.city, 'info sec 21').toString(CryptoJS.enc.Utf8);
             
-            res.render("employee/addOrEdit", {
+            res.render("student/addOrEdit", {
                 viewTitle: "Update Student",
                 student: doc
             });
@@ -124,9 +124,9 @@ router.get('/:id', (req, res) => {
 router.get('/delete/:id', (req, res) => {
     Student.findByIdAndRemove(req.params.id, (err, doc) => {
         if (!err) {
-            res.redirect('/employee/list');
+            res.redirect('/student/list');
         }
-        else { console.log('Error in employee delete :' + err); }
+        else { console.log('Error in student delete :' + err); }
     });
 });
 
