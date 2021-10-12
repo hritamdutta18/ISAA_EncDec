@@ -2,6 +2,7 @@ const express = require('express');
 var router = express.Router();
 const mongoose = require('mongoose');
 const Employee = mongoose.model('Employee');
+var CryptoJS = require("crypto-js");
 
 router.get('/', (req, res) => {
     res.render("employee/addOrEdit", {
@@ -19,10 +20,11 @@ router.post('/', (req, res) => {
 
 function insertRecord(req, res) {
     var employee = new Employee();
-    employee.fullName = req.body.fullName;
+    employee.fullName = CryptoJS.AES.encrypt(req.body.fullName, 'secret key 123').toString();
     employee.email = req.body.email;
-    employee.mobile = req.body.mobile;
-    employee.city = req.body.city;
+    employee.mobile = CryptoJS.AES.encrypt(req.body.mobile, 'secret key 123').toString();
+    employee.city = CryptoJS.AES.encrypt(req.body.city, 'secret key 123').toString();
+
     employee.save((err, doc) => {
         if (!err)
             res.redirect('employee/list');
@@ -41,6 +43,10 @@ function insertRecord(req, res) {
 }
 
 function updateRecord(req, res) {
+    req.body.fullName= CryptoJS.AES.encrypt(req.body.fullName, 'secret key 123').toString();
+    req.body.mobile= CryptoJS.AES.encrypt(req.body.mobile, 'secret key 123').toString();
+    req.body.city= CryptoJS.AES.encrypt(req.body.city, 'secret key 123').toString();
+
     Employee.findOneAndUpdate({ _id: req.body._id }, req.body, { new: true }, (err, doc) => {
         if (!err) { res.redirect('employee/list'); }
         else {
@@ -61,6 +67,12 @@ function updateRecord(req, res) {
 router.get('/list', (req, res) => {
     Employee.find((err, docs) => {
         if (!err) {
+            console.log ("\n********** Database Contents: **************\n", docs);
+            docs.forEach((docs) => {
+                docs.fullName= CryptoJS.AES.decrypt(docs.fullName, 'secret key 123').toString(CryptoJS.enc.Utf8);
+                docs.mobile= CryptoJS.AES.decrypt(docs.mobile, 'secret key 123').toString(CryptoJS.enc.Utf8);
+                docs.city= CryptoJS.AES.decrypt(docs.city, 'secret key 123').toString(CryptoJS.enc.Utf8);
+            });
             res.render("employee/list", {
                 list: docs
             });
@@ -90,6 +102,10 @@ function handleValidationError(err, body) {
 router.get('/:id', (req, res) => {
     Employee.findById(req.params.id, (err, doc) => {
         if (!err) {
+            doc.fullName= CryptoJS.AES.decrypt(doc.fullName, 'secret key 123').toString(CryptoJS.enc.Utf8);
+            doc.mobile= CryptoJS.AES.decrypt(doc.mobile, 'secret key 123').toString(CryptoJS.enc.Utf8);
+            doc.city= CryptoJS.AES.decrypt(doc.city, 'secret key 123').toString(CryptoJS.enc.Utf8);
+            
             res.render("employee/addOrEdit", {
                 viewTitle: "Update Employee",
                 employee: doc
