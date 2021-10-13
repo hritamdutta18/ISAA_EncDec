@@ -1,0 +1,33 @@
+<div class="banner" style="text-align: center;">
+    <h2><u>CRUD with Encryption and Decryption</u></h2>
+    <h3>{{viewTitle}}</h3>
+</div>
+<form action="/student" method="POST" autocomplete="off">
+    <input type="hidden" name="_id" value="{{student._id}}">
+    <div class="form-group">
+        <label>Name</label>
+        <input type="text" class="form-control" name="fullName" placeholder="Name" value="{{student.fullName}}">
+        <div class="text-danger">
+            {{student.fullNameError}}</div>
+    </div>
+    <div class="form-group">
+        <label>Registration Number</label>
+        <input type="text" class="form-control" name="regno" placeholder="Reg Number" value="{{student.regno}}">
+    </div>
+
+    <div class="form-group">
+        <label>Branch</label>
+        <input type="text" class="form-control" name="branch" placeholder="Branch" value="{{student.branch}}">
+    </div>
+    <div class="form-group">
+        <label>City</label>
+        <input type="text" class="form-control" name="city" placeholder="City" value="{{student.city}}">
+    </div>
+
+    <div class="form-group">
+        <div class="buttons" style="display: flex;flex-direction:row;justify-content:space-between">
+            <button type="submit" class="btn btn-danger"><i class="fa fa-database"></i> Submit</button>
+            <a class="btn btn-info" href="/student/list"><i class="fa fa-list-alt"></i> View All</a>
+        </div>
+    </div>
+</form>
