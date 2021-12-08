@@ -9,13 +9,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-<<<<<<< HEAD
     "body-parser": "^1.18.3",
     "crypto-js": "^4.1.1",
     "express": "^4.16.4",
     "express-handlebars": "^3.0.0",
-    "mongoose": "^5.3.4"
-=======
+    "mongoose": "^5.3.4",
     "body-parser": "^1.19.0",
     "crypto-js": "^4.1.1",
     "express": "^4.17.1",
@@ -24,6 +22,5 @@
   },
   "devDependencies": {
     "handlebars": "^4.5.0"
->>>>>>> master
   }
 }
